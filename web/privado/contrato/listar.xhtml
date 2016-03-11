@@ -17,11 +17,58 @@
                                  update=":formEdicao"
                                  process="@form"
                                  oncomplete="PF('dlg').show();"/>
-                <p:dataTable value="#{controleContrato.dao.listarTodos}"
+                <div align="center">
+                    <p:panelGrid columns="1">
+                        <f:facet name="header">  
+                            Filtro Ordenação e Paginação 
+                        </f:facet>                          
+                        <p:column  colspan="13" rowspan="1">     
+                            <p:commandButton actionListener="#{controleContrato.novo()}"
+                                             value="Novo" oncomplete="PF('dlg').show();"
+                                             update=":formEdicao" icon="ui-icon-plus"/>                                                        
+                            <h:outputLabel for="ordem" value="Ordem" />     
+                            <h:selectOneMenu id="ordem" 
+                                             value="#{controleContrato.dao.currentOrder}"
+                                             converter="#{controleContrato.dao.converterOrder}">
+                                <f:selectItems value="#{controleContrato.dao.listOrder}" />
+                                <p:ajax update="formListagem" 
+                                        listener="#{controleContrato.listar()}"/>
+                            </h:selectOneMenu>                            
+                            <h:outputLabel for="maximoObjetos" value="Máximo de objetos" />
+                            <p:inputText id="maximoObjetos"  
+                                         value="#{controleContrato.dao.maxObjects}" size="2"
+                                         onkeydown="Mascara(this, Integer);"
+                                         onkeypress="Mascara(this, Integer);"
+                                         onkeyup="Mascara(this, Integer);">
+                                <p:ajax update="tabela"
+                                        listener="#{controleContrato.listar()}" event="keyup"/>                          
+                            </p:inputText>                      
+                            <h:outputLabel for="filtro" value="Filtro" />
+                            <p:inputText id="filtro" placeholder="Digite o filtro"
+                                         value="#{controleContrato.dao.filter}" >
+                                <p:ajax update="tabela" 
+                                        listener="#{controleContrato.listar()}" event="keyup"/>                            
+                            </p:inputText>
+                            <p:commandButton id="btnFiltrar" update="formListagem" 
+                                             actionListener="#{controleContrato.listar()}" icon="ui-icon-search" />  
+                            <p:commandButton id="btnPrimeiro" update="formListagem" 
+                                             actionListener="#{controleContrato.dao.first()}" icon="ui-icon-seek-start"/>  
+                            <p:commandButton id="btnAnterior" update="formListagem" 
+                                             actionListener="#{controleContrato.dao.previous()}" icon="ui-icon-seek-prev"/>  
+                            <p:commandButton  id="btnProximo" update="formListagem" 
+                                              actionListener="#{controleContrato.dao.next()}" icon="ui-icon-seek-next"/>  
+                            <p:commandButton id="btnUltimo" update="formListagem" 
+                                             actionListener="#{controleContrato.dao.last()}" icon="ui-icon-seek-end" /> 
+                        </p:column>  
+                    </p:panelGrid>                     
+                </div> 
+                <p:dataTable value="#{controleContrato.dao.listObjects}"
+                             id="tabela"
                              var="obj">
                     <f:facet name="footer">
                         <div align="center">
-                            <p:outputLabel value="Total de registros: #{controleContrato.dao.listarTodos.size()}"/>
+                            <p:outputLabel 
+                                value="#{controleEstado.dao.navigationMessage}"/>
                         </div>
                     </f:facet>
                     <p:column headerText="Codigo">
@@ -102,11 +149,11 @@
                                 <f:facet name="header">
                                     <p:commandButton value="Novo aditivo"
                                                      actionListener="#{controleContrato.novoAditivo()}"
-                                        update=":formAditivo"
-                                        icon="ui-icon-plus"
-                                        id="btnNovoAditivo"
-                                        process="btnNovoAditivo"
-                                        oncomplete="PF('dlgAditivo').show();"/>
+                                                     update=":formAditivo"
+                                                     icon="ui-icon-plus"
+                                                     id="btnNovoAditivo"
+                                                     process="btnNovoAditivo"
+                                                     oncomplete="PF('dlgAditivo').show();"/>
                                 </f:facet>
                                 <p:column headerText="Periodo" >
                                     <p:outputLabel value="#{adt.periodo}">
@@ -124,15 +171,16 @@
                                         <p:commandButton id="btnAlterarAditivo"
                                                          icon="ui-icon-pencil"
                                                          actionListener="#{controleContrato.alterarAditivo(idx)}"
-                                            process="btnAlterarAditivo"
-                                            update=":formAditivo"
-                                            oncomplete="PF('dlgAditivo').show();"/>
+                                                         process="btnAlterarAditivo"
+                                                         update=":formAditivo"
+                                                         oncomplete="PF('dlgAditivo').show();"/>
                                         <p:commandButton id="btnExcluirAditivo"
                                                          icon="ui-icon-trash"
                                                          actionListener="#{controleContrato.removerAditivo(idx)}"
-                                            process="btnExcluirAditivo"
-                                            update="listaAditivos growl"
-                                            onclick="if (!confirm('Confirma a exclusão?')) return false"/>
+                                                         process="btnExcluirAditivo"
+                                                         update="listaAditivos growl"
+                                                         onclick="if (!confirm('Confirma a exclusão?'))
+                                                                     return false"/>
                                     </div>
                                 </p:column>
                             </p:dataTable>
@@ -152,26 +200,26 @@
                                 <p:commandButton id="btnAdicionarAditivo"
                                                  value="Salvar" icon="ui-icon-disk"
                                                  actionListener="#{controleContrato.salvarAditivo()}"
-                                    update=":formEdicao:tab:listaAditivos formAditivo :formEdicao:growl"
-                                    process="btnAdicionarAditivo txtPeriodo txtReajusteValor"
-                                    oncomplete="if(!args.validationFailed) {PF('dlgAditivo').hide();}"/>
+                                                 update=":formEdicao:tab:listaAditivos formAditivo :formEdicao:growl"
+                                                 process="btnAdicionarAditivo txtPeriodo txtReajusteValor"
+                                                 oncomplete="if(!args.validationFailed) {PF('dlgAditivo').hide();}"/>
                             </div>
                         </f:facet>
                         <p:outputLabel value="Periodo" for="txtPeriodo"/>
-                                    <p:calendar value="#{controleContrato.aditivo.periodo}"
-                                                id="txtPeriodo"
-                                                mask="true" pattern="dd/MM/yyyy" navigator="true">
-                                        <f:converter converterId="converterCalendar"/>
-                                    </p:calendar>
+                        <p:calendar value="#{controleContrato.aditivo.periodo}"
+                                    id="txtPeriodo"
+                                    mask="true" pattern="dd/MM/yyyy" navigator="true">
+                            <f:converter converterId="converterCalendar"/>
+                        </p:calendar>
                         <p:outputLabel for="txtReajusteValor" value="Reajuste"/>
                         <p:inputText id="txtReajusteValor"
                                      value="#{controleContrato.aditivo.reajustevalor}"
                                      size="30" maxlength="30"/>
                     </p:panelGrid>
                 </h:form>
-                
+
             </p:dialog>
-            
+
         </ui:define>
     </ui:composition>
 </html>

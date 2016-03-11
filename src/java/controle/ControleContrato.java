@@ -24,7 +24,7 @@ import util.Util;
 public class ControleContrato implements Serializable  {
     
     @EJB
-    private ContratoDAO dao;
+    private ContratoDAO<Contrato> dao;
     private Contrato objeto;
     private Aditivo aditivo;
     private Boolean novoAditivo;

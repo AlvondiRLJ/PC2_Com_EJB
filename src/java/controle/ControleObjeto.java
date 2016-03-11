@@ -21,7 +21,7 @@ import util.Util;
 public class ControleObjeto {
     
     @EJB
-    private ObjetoDAO dao;
+    private ObjetoDAO<Objeto> dao;
     private Objeto objeto;
 
     public ControleObjeto() {

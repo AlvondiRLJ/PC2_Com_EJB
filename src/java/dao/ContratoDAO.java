@@ -6,59 +6,28 @@
 package dao;
 
 import java.io.Serializable;
-import java.util.List;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.ejb.Stateful;
 import modelo.Contrato;
 
 /**
  *
  * @author Alvondi
  */
-@Stateless
-public class ContratoDAO implements Serializable {
+@Stateful
+public class ContratoDAO<T> extends GenericDAO<Contrato> implements Serializable{
     
-    @PersistenceContext(unitName = "GenContractsPU")
-    private EntityManager em;
-    private List<Contrato> listarTodos;
-
-    public ContratoDAO() {
+    public ContratoDAO(){
+        super();
+        // definir a classe persistente
+        super.setPersistentClass(Contrato.class);
+        // denifir a lista de ordenações
+        super.getListOrder().add(new Order("id", "ID", "="));
+        super.getListOrder().add(new Order("numero", "Numero", "like"));
+        // definir a ordem atual
+        super.setCurrentOrder(super.getListOrder().get(1));
+        // inicializar o filtro
+        super.setFilter("");
+        // inicializar o conversor da ordem
+        super.setConverterOrder(new ConverterOrder(super.getListOrder()));
     }
-    public void persist(Contrato objeto) throws Exception {
-        em.persist(objeto);        
-    }
-    
-    public void merge(Contrato objeto) throws Exception {
-        em.merge(objeto);
-    }
-    
-    public void remove(Contrato objeto) throws Exception{
-        objeto = em.merge(objeto);
-        em.remove(objeto);
-    }
-    
-    public Contrato getObjectById(Integer id) throws Exception {
-        Contrato obj = em.find(Contrato.class, id);
-        // Executar o size das listas para inicializa-las
-        obj.getAditivos().size();
-        return obj;
-    }
-
-    public EntityManager getEm() {
-        return em;
-    }
-
-    public void setEm(EntityManager em) {
-        this.em = em;
-    }
-
-    public List<Contrato> getListarTodos() {
-        return em.createQuery("from Contrato order by numero").getResultList();
-    }
-
-    public void setListarTodos(List<Contrato> listarTodos) {
-        this.listarTodos = listarTodos;
-    }
-    
 }

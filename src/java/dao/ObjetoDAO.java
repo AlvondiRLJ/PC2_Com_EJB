@@ -6,57 +6,28 @@
 package dao;
 
 import java.io.Serializable;
-import java.util.List;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.ejb.Stateful;
 import modelo.Objeto;
 
 /**
  *
  * @author Alvondi
  */
-@Stateless
-public class ObjetoDAO implements Serializable {
+@Stateful
+public class ObjetoDAO<T> extends GenericDAO<Objeto> implements Serializable{
     
-    @PersistenceContext(unitName = "GenContractsPU")
-    private EntityManager em;
-    private List<Objeto> listarTodos;
-
-    public ObjetoDAO() {
+    public ObjetoDAO(){
+        super();
+        // definir a classe persistente
+        super.setPersistentClass(Objeto.class);
+        // denifir a lista de ordenações
+        super.getListOrder().add(new Order("id", "ID", "="));
+        super.getListOrder().add(new Order("descricao", "Descricao", "like"));
+        // definir a ordem atual
+        super.setCurrentOrder(super.getListOrder().get(1));
+        // inicializar o filtro
+        super.setFilter("");
+        // inicializar o conversor da ordem
+        super.setConverterOrder(new ConverterOrder(super.getListOrder()));
     }
-    
-    public void persist(Objeto obj) throws Exception {
-        em.persist(obj);        
-    }
-    
-    public void merge(Objeto obj) throws Exception {
-        em.merge(obj);
-    }
-    
-    public void remove(Objeto obj) throws Exception{
-        obj = em.merge(obj);
-        em.remove(obj);
-    }
-    
-    public Objeto getObjectById(Integer id) throws Exception {
-        return em.find(Objeto.class, id);
-    }
-
-    public EntityManager getEm() {
-        return em;
-    }
-
-    public void setEm(EntityManager em) {
-        this.em = em;
-    }
-
-    public List<Objeto> getListarTodos() {
-        return em.createQuery("from Objeto order by descricao").getResultList();
-    }
-
-    public void setListarTodos(List<Objeto> listarTodos) {
-        this.listarTodos = listarTodos;
-    }
-    
 }
