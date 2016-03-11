@@ -23,7 +23,7 @@ import util.Util;
 public class ControlePessoaFisica implements Serializable{
     
     @EJB
-    private PessoaFisicaDAO dao;
+    private PessoaFisicaDAO<PessoaFisica> dao;
     private PessoaFisica objeto;
     @EJB
     private CidadeDAO daoCidade;

@@ -105,7 +105,7 @@
                                     <p:selectOneMenu value="#{controlePessoaJuridica.objeto.cidade}"
                                                      id="selectCidade">
                                         <f:converter converterId="converterCidade"/>
-                                        <f:selectItems value="#{controlePessoaJuridica.daoCidade.listarTodos}" 
+                                        <f:selectItems value="#{controlePessoaJuridica.daoCidade.listObjects}" 
                                                        var="c"
                                                        itemLabel="#{c.nome}"/>
                                     </p:selectOneMenu>
