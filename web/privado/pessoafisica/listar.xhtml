@@ -108,7 +108,7 @@
                                     <p:selectOneMenu value="#{controlePessoaFisica.objeto.cidade}"
                                                      id="selectCidade">
                                         <f:converter converterId="converterCidade"/>
-                                        <f:selectItems value="#{controlePessoaFisica.daoCidade.listarTodos}" 
+                                        <f:selectItems value="#{controlePessoaFisica.daoCidade.listObjects}" 
                                                        var="c"
                                                        itemLabel="#{c.nome}"/>
                                     </p:selectOneMenu>

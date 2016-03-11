@@ -17,12 +17,59 @@
                                  update=":formEdicao"
                                  process="@form"
                                  oncomplete="PF('dlg').show();"/>
-                <p:dataTable value="#{controleCidade.dao.listarTodos}" 
+                <div align="center">
+                    <p:panelGrid columns="1">
+                        <f:facet name="header">  
+                            Filtro Ordenação e Paginação 
+                        </f:facet>                          
+                        <p:column  colspan="13" rowspan="1">     
+                            <p:commandButton actionListener="#{controleCidade.novo()}"
+                                             value="Novo" oncomplete="PF('dlg').show();"
+                                             update=":formEdicao" icon="ui-icon-plus"/>                                                        
+                            <h:outputLabel for="ordem" value="Ordem" />     
+                            <h:selectOneMenu id="ordem" 
+                                             value="#{controleCidade.dao.currentOrder}"
+                                             converter="#{controleCidade.dao.converterOrder}">
+                                <f:selectItems value="#{controleCidade.dao.listOrder}" />
+                                <p:ajax update="formListagem" 
+                                        listener="#{controleCidade.listar()}"/>
+                            </h:selectOneMenu>                            
+                            <h:outputLabel for="maximoObjetos" value="Máximo de objetos" />
+                            <p:inputText id="maximoObjetos"  
+                                         value="#{controleCidade.dao.maxObjects}" size="2"
+                                         onkeydown="Mascara(this, Integer);"
+                                         onkeypress="Mascara(this, Integer);"
+                                         onkeyup="Mascara(this, Integer);">
+                                <p:ajax update="tabela"
+                                        listener="#{controleCidade.listar()}" event="keyup"/>                          
+                            </p:inputText>                      
+                            <h:outputLabel for="filtro" value="Filtro" />
+                            <p:inputText id="filtro" placeholder="Digite o filtro"
+                                         value="#{controleCidade.dao.filter}" >
+                                <p:ajax update="tabela" 
+                                        listener="#{controleCidade.listar()}" event="keyup"/>                            
+                            </p:inputText>
+                            <p:commandButton id="btnFiltrar" update="formListagem" 
+                                             actionListener="#{controleCidade.listar()}" icon="ui-icon-search" />  
+                            <p:commandButton id="btnPrimeiro" update="formListagem" 
+                                             actionListener="#{controleCidade.dao.first()}" icon="ui-icon-seek-start"/>  
+                            <p:commandButton id="btnAnterior" update="formListagem" 
+                                             actionListener="#{controleCidade.dao.previous()}" icon="ui-icon-seek-prev"/>  
+                            <p:commandButton  id="btnProximo" update="formListagem" 
+                                              actionListener="#{controleCidade.dao.next()}" icon="ui-icon-seek-next"/>  
+                            <p:commandButton id="btnUltimo" update="formListagem" 
+                                             actionListener="#{controleCidade.dao.last()}" icon="ui-icon-seek-end" /> 
+                        </p:column>  
+                    </p:panelGrid>                     
+                </div> 
+                <p:dataTable value="#{controleCidade.dao.listObjects}" 
+                             id="tabela"
                              var="obj"
                              emptyMessage="Nenhum registro encontrado">
                     <f:facet name="footer">
                         <div align="center">
-                            <p:outputLabel value="Total de registros: #{controleCidade.dao.listarTodos.size()}"/>
+                            <p:outputLabel 
+                                value="#{controleCidade.dao.navigationMessage}"/>
                         </div>
                     </f:facet>
                     <p:column headerText="Codigo">
@@ -45,7 +92,7 @@
                                              action="#{controleCidade.excluir(obj.codigo)}"
                                              update="@form" process="@form"
                                              onclick="if (!confirm('Confirma a exclusão do objeto?'))
-                                             return false"/>
+                                                         return false"/>
                         </div>
                     </p:column>
                 </p:dataTable>

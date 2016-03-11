@@ -22,7 +22,7 @@ import util.Util;
 public class ControleCidade {
     
     @EJB
-    private CidadeDAO dao;
+    private CidadeDAO<Cidade> dao;
     private Cidade objeto;
     @EJB
     private EstadoDAO daoEstado;
