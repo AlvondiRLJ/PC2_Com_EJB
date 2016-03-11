@@ -17,11 +17,58 @@
                                  update=":formEdicao"
                                  process="@form"
                                  oncomplete="PF('dlg').show();"/>
-                <p:dataTable value="#{controlePessoaJuridica.dao.listarTodos}"
+                <div align="center">
+                    <p:panelGrid columns="1">
+                        <f:facet name="header">  
+                            Filtro Ordenação e Paginação 
+                        </f:facet>                          
+                        <p:column  colspan="13" rowspan="1">     
+                            <p:commandButton actionListener="#{controlePessoaJuridica.novo()}"
+                                             value="Novo" oncomplete="PF('dlg').show();"
+                                             update=":formEdicao" icon="ui-icon-plus"/>                                                        
+                            <h:outputLabel for="ordem" value="Ordem" />     
+                            <h:selectOneMenu id="ordem" 
+                                             value="#{controlePessoaJuridica.dao.currentOrder}"
+                                             converter="#{controlePessoaJuridica.dao.converterOrder}">
+                                <f:selectItems value="#{controlePessoaJuridica.dao.listOrder}" />
+                                <p:ajax update="formListagem" 
+                                        listener="#{controlePessoaJuridica.listar()}"/>
+                            </h:selectOneMenu>                            
+                            <h:outputLabel for="maximoObjetos" value="Máximo de objetos" />
+                            <p:inputText id="maximoObjetos"  
+                                         value="#{controlePessoaJuridica.dao.maxObjects}" size="2"
+                                         onkeydown="Mascara(this, Integer);"
+                                         onkeypress="Mascara(this, Integer);"
+                                         onkeyup="Mascara(this, Integer);">
+                                <p:ajax update="tabela"
+                                        listener="#{controlePessoaJuridica.listar()}" event="keyup"/>                          
+                            </p:inputText>                      
+                            <h:outputLabel for="filtro" value="Filtro" />
+                            <p:inputText id="filtro" placeholder="Digite o filtro"
+                                         value="#{controlePessoaJuridica.dao.filter}" >
+                                <p:ajax update="tabela" 
+                                        listener="#{controlePessoaJuridica.listar()}" event="keyup"/>                            
+                            </p:inputText>
+                            <p:commandButton id="btnFiltrar" update="formListagem" 
+                                             actionListener="#{controlePessoaJuridica.listar()}" icon="ui-icon-search" />  
+                            <p:commandButton id="btnPrimeiro" update="formListagem" 
+                                             actionListener="#{controlePessoaJuridica.dao.first()}" icon="ui-icon-seek-start"/>  
+                            <p:commandButton id="btnAnterior" update="formListagem" 
+                                             actionListener="#{controlePessoaJuridica.dao.previous()}" icon="ui-icon-seek-prev"/>  
+                            <p:commandButton  id="btnProximo" update="formListagem" 
+                                              actionListener="#{controlePessoaJuridica.dao.next()}" icon="ui-icon-seek-next"/>  
+                            <p:commandButton id="btnUltimo" update="formListagem" 
+                                             actionListener="#{controlePessoaJuridica.dao.last()}" icon="ui-icon-seek-end" /> 
+                        </p:column>  
+                    </p:panelGrid>                     
+                </div> 
+                <p:dataTable value="#{controlePessoaJuridica.dao.listObjects}"
+                             id="tabela"
                              var="obj">
                     <f:facet name="footer">
                         <div align="center">
-                            <p:outputLabel value="Total de registros: #{controlePessoaJuridica.dao.listarTodos.size()}"/>
+                            <p:outputLabel 
+                                value="#{controleEstado.dao.navigationMessage}"/>
                         </div>
                     </f:facet>
                     <p:column headerText="Codigo">

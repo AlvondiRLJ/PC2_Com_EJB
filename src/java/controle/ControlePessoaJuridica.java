@@ -23,7 +23,7 @@ import util.Util;
 public class ControlePessoaJuridica implements Serializable {
     
     @EJB
-    private PessoaJuridicaDAO dao;
+    private PessoaJuridicaDAO<PessoaJuridica> dao;
     private PessoaJuridica objeto;
     @EJB
     private CidadeDAO daoCidade;
