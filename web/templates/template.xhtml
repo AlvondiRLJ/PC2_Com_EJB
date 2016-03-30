@@ -22,7 +22,7 @@
                           collapsible="true" size="170">
                 <h:form id="formMenu" prependId="false">
                     <p:menu>
-                        <p:submenu label="Cadastros">
+                        <p:submenu label="Cadastros" rendered="#{controleLogin.usuarioLogado != null}">
                             <p:menuitem action="#{controleEstado.listar()}"
                                         value="Manutenção de estados"
                                         ajax="false"/>
@@ -40,6 +40,16 @@
                                         ajax="false"/>
                             <p:menuitem action="#{controleObjeto.listar()}"
                                         value="Manutenção de Objetos"
+                                        ajax="false"/>
+                        </p:submenu>
+                        <p:submenu label="Sair" rendered="#{controleLogin.usuarioLogado != null}">
+                            <p:menuitem action="#{controleLogin.efetuarLogOut()}"
+                                        value="Logout"
+                                        ajax="false"/>
+                        </p:submenu>
+                        <p:submenu label="Login" rendered="#{controleLogin.usuarioLogado == null}">
+                            <p:menuitem action="#{controleLogin.paginaLogin()}"
+                                        value="Login"
                                         ajax="false"/>
                         </p:submenu>
                     </p:menu>

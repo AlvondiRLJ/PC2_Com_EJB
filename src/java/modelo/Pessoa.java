@@ -49,7 +49,7 @@ public abstract class Pessoa implements Serializable {
     @Email(message = "O email deve ser válido")
     @NotBlank(message = "O email deve ser informado")
     @Length(max = 50, message="O email não deve possuir mais de {max} caracteres")
-    @Column(name = "email",length = 50,nullable = false)
+    @Column(name = "email",length = 50,nullable = false, unique = true) // unique para email por causa do login
     private String email;
     @NotBlank(message = "O endereço deve ser informado")
     @Length(max = 50, message="O endereço não deve possuir mais de {max} caracteres")
