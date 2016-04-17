@@ -30,4 +30,12 @@ public class ContratoDAO<T> extends GenericDAO<Contrato> implements Serializable
         // inicializar o conversor da ordem
         super.setConverterOrder(new ConverterOrder(super.getListOrder()));
     }
+    
+    @Override
+    public Contrato getObjectById(Integer id) throws Exception {
+        Contrato obj = super.getEm().find(Contrato.class, id);
+        // inicializar as coleções pela chamada do método size()        
+        obj.getAditivos().size();
+        return obj;
+    }
 }

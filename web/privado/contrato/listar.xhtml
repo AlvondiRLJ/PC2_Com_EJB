@@ -10,8 +10,8 @@
             Manutenção de Contratos
         </ui:define>
         <ui:define name="conteudo">
-            <h:form id="formListagem" prependId="false">
-                <p:growl/>
+            <h:form id="formListagem">
+                <p:growl id="growl"/>
                 <p:commandButton value="Novo Contrato"
                                  actionListener="#{controleContrato.novo()}"
                                  update=":formEdicao"
@@ -64,6 +64,7 @@
                 </div> 
                 <p:dataTable value="#{controleContrato.dao.listObjects}"
                              id="tabela"
+                             emptyMessage="Nenhum registro encontrado"
                              var="obj">
                     <f:facet name="footer">
                         <div align="center">
@@ -101,7 +102,7 @@
                 <h:form id="formEdicao" prependId="false">
                     <p:growl id="growl"/>
                     <p:tabView id="tab">
-                        <p:tab title="Dados Principais">
+                        <p:tab title="Dadooos Principais">
                             <div align="center">
                                 <p:panelGrid columns="2">
                                     <f:facet name="footer">
@@ -142,7 +143,8 @@
                                 </p:panelGrid>
                             </div>
                         </p:tab>
-                        <p:tab title="Aditivos">
+                        <p:tab title="Aditiiiivos" titletip="Aditiiiivos">
+                            
                             <p:dataTable value="#{controleContrato.objeto.aditivos}"
                                          var="adt" rowIndexVar="idx"
                                          id="listaAditivos">
@@ -155,7 +157,7 @@
                                                      process="btnNovoAditivo"
                                                      oncomplete="PF('dlgAditivo').show();"/>
                                 </f:facet>
-                                <p:column headerText="Periodo" >
+                                <p:column headerText="Periodo">
                                     <p:outputLabel value="#{adt.periodo}">
                                         <f:convertDateTime pattern="dd/MM/yyyy"/>
                                         <f:converter converterId="converterCalendar"/>
@@ -178,12 +180,13 @@
                                                          icon="ui-icon-trash"
                                                          actionListener="#{controleContrato.removerAditivo(idx)}"
                                                          process="btnExcluirAditivo"
-                                                         update="listaAditivos growl"
+                                                         update="listaAditivos :formListagem:growl"
                                                          onclick="if (!confirm('Confirma a exclusão?'))
                                                                      return false"/>
                                     </div>
                                 </p:column>
                             </p:dataTable>
+                            
                         </p:tab>
                     </p:tabView>
 
