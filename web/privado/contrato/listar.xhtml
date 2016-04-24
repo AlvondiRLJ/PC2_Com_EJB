@@ -102,7 +102,7 @@
                 <h:form id="formEdicao" prependId="false">
                     <p:growl id="growl"/>
                     <p:tabView id="tab">
-                        <p:tab title="Dadooos Principais">
+                        <p:tab title="Dados Principais">
                             <div align="center">
                                 <p:panelGrid columns="2">
                                     <f:facet name="footer">
@@ -143,7 +143,7 @@
                                 </p:panelGrid>
                             </div>
                         </p:tab>
-                        <p:tab title="Aditiiiivos" titletip="Aditiiiivos">
+                        <p:tab title="Aditivos" titletip="Aditivos">
                             
                             <p:dataTable value="#{controleContrato.objeto.aditivos}"
                                          var="adt" rowIndexVar="idx"
@@ -181,6 +181,45 @@
                                                          actionListener="#{controleContrato.removerAditivo(idx)}"
                                                          process="btnExcluirAditivo"
                                                          update="listaAditivos :formListagem:growl"
+                                                         onclick="if (!confirm('Confirma a exclusão?'))
+                                                                     return false"/>
+                                    </div>
+                                </p:column>
+                            </p:dataTable>
+                            
+                        </p:tab>
+                        <p:tab title="Objetos" titletip="Objetos">
+                            <div align="center">
+                                <p:panelGrid columns="3">
+                                    <p:outputLabel value="Objeto"/>
+                                    <p:selectOneMenu value="#{controleContrato.obj}"
+                                                     id="selectObjeto">
+                                        <f:converter converterId="converterObjeto"/>
+                                        <f:selectItems value="#{controleContrato.daoObjeto.listAll}"
+                                                       var="o" itemLabel="#{o.descricao}"/>
+                                    </p:selectOneMenu>
+                                    <p:commandButton 
+                                        actionListener="#{controleContrato.adicionarObjeto()}"
+                                        update="listaObjetos :formListagem:growl" 
+                                        icon="ui-icon-plus" id="btnNovoObjeto"
+                                        process="btnNovoObjeto selectObjeto"/>
+                                </p:panelGrid>    
+                            </div>                            
+                            <p:dataTable value="#{controleContrato.objeto.objetos}" var="obje" 
+                                         id="listaObjetos">
+                                <p:column headerText="Codigo">
+                                    <p:outputLabel value="#{obje.codigo}"/>                                    
+                                </p:column>
+                                <p:column headerText="Descricao">
+                                    <p:outputLabel value="#{obje.descricao}"/>                                    
+                                </p:column>
+                                <p:column headerText="Ações">
+                                    <div align="center">
+                                        <p:commandButton id="btnExcluirObjeto"
+                                                         icon="ui-icon-trash"
+                                                         actionListener="#{controleContrato.removerObjeto(obje)}"
+                                                         process="btnExcluirObjeto"
+                                                         update="listaObjetos :formListagem:growl"
                                                          onclick="if (!confirm('Confirma a exclusão?'))
                                                                      return false"/>
                                     </div>

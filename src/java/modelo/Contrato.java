@@ -183,4 +183,14 @@ public class Contrato implements Serializable {
         this.objetos = objetos;
     }
     
+    public void adicionarObjetos(Objeto obj){
+        if (!this.getObjetos().contains(obj)){
+            this.getObjetos().add(obj);
+        }
+    }
+    
+    public void removerObjetos(Objeto obj){
+        this.getObjetos().remove(obj);
+    }
+    
 }

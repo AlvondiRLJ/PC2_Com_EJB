@@ -36,6 +36,7 @@ public class ContratoDAO<T> extends GenericDAO<Contrato> implements Serializable
         Contrato obj = super.getEm().find(Contrato.class, id);
         // inicializar as coleções pela chamada do método size()        
         obj.getAditivos().size();
+        obj.getObjetos().size();
         return obj;
     }
 }

@@ -6,6 +6,7 @@
 package controle;
 
 import dao.ContratoDAO;
+import dao.ObjetoDAO;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -28,7 +29,9 @@ public class ControleContrato implements Serializable  {
     private Contrato objeto;
     private Aditivo aditivo;
     private Boolean novoAditivo;
-    Objeto obj;
+    private Objeto obj;
+    @EJB
+    private ObjetoDAO<Objeto> daoObjeto;
 
     public ControleContrato() {
     }
@@ -94,6 +97,16 @@ public class ControleContrato implements Serializable  {
         Util.mensagemInformacao("Operação realizada com sucesso");
     }
     
+    public void adicionarObjeto(){
+        objeto.adicionarObjetos(obj);
+        Util.mensagemInformacao("Objeto adicionado com sucesso");
+    }
+    
+    public void removerObjeto(Objeto obj){
+        objeto.removerObjetos(obj);
+        Util.mensagemInformacao("Objeto removido com sucesso");
+    }    
+    
     public ContratoDAO getDao() {
         return dao;
     }
@@ -125,7 +138,21 @@ public class ControleContrato implements Serializable  {
     public void setNovoAditivo(Boolean novoAditivo) {
         this.novoAditivo = novoAditivo;
     }
-    
-    
+
+    public Objeto getObj() {
+        return obj;
+    }
+
+    public void setObj(Objeto obj) {
+        this.obj = obj;
+    }
+
+    public ObjetoDAO<Objeto> getDaoObjeto() {
+        return daoObjeto;
+    }
+
+    public void setDaoObjeto(ObjetoDAO<Objeto> daoObjeto) {
+        this.daoObjeto = daoObjeto;
+    }
     
 }
