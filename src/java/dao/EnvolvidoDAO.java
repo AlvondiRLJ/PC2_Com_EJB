@@ -7,22 +7,23 @@ package dao;
 
 import java.io.Serializable;
 import javax.ejb.Stateful;
-import modelo.Contrato;
+import modelo.Envolvido;
+import modelo.Objeto;
 
 /**
  *
  * @author Alvondi
  */
 @Stateful
-public class ContratoDAO<T> extends GenericDAO<Contrato> implements Serializable{
+public class EnvolvidoDAO<T> extends GenericDAO<Envolvido> implements Serializable {
     
-    public ContratoDAO(){
+    public EnvolvidoDAO(){
         super();
         // definir a classe persistente
-        super.setPersistentClass(Contrato.class);
+        super.setPersistentClass(Envolvido.class);
         // denifir a lista de ordenações
-        super.getListOrder().add(new Order("id", "ID", "="));
-        super.getListOrder().add(new Order("numero", "Numero", "like"));
+        super.getListOrder().add(new Order("tipo", "Tipo", "like"));
+        super.getListOrder().add(new Order("descricao", "Descricao", "like"));
         // definir a ordem atual
         super.setCurrentOrder(super.getListOrder().get(1));
         // inicializar o filtro
@@ -31,13 +32,4 @@ public class ContratoDAO<T> extends GenericDAO<Contrato> implements Serializable
         super.setConverterOrder(new ConverterOrder(super.getListOrder()));
     }
     
-    @Override
-    public Contrato getObjectById(Integer id) throws Exception {
-        Contrato obj = super.getEm().find(Contrato.class, id);
-        // inicializar as coleções pela chamada do método size()        
-        obj.getAditivos().size();
-        obj.getObjetos().size();
-        obj.getEnvolvidos().size();
-        return obj;
-    }
 }

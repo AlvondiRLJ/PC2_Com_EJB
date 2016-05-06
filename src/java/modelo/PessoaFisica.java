@@ -6,11 +6,16 @@
 package modelo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -41,7 +46,7 @@ public class PessoaFisica extends Pessoa implements Serializable {
     @Temporal(TemporalType.DATE)
     @Column(name = "nascimento", nullable = false)
     private Calendar nascimento;
-
+    
     public PessoaFisica() {
     }
 

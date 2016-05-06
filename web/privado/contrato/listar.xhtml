@@ -227,6 +227,50 @@
                             </p:dataTable>
                             
                         </p:tab>
+                        <p:tab title="Envolvidos" titletip="Envolvidos">
+                            
+                            <p:dataTable value="#{controleContrato.objeto.envolvidos}"
+                                         var="env" rowIndexVar="idxenv"
+                                         id="listaEnvolvidos">
+                                <f:facet name="header">
+                                    <p:commandButton value="Novo envolvido"
+                                                     actionListener="#{controleContrato.novoEnvolvido()}"
+                                                     update=":formEnvolvido"
+                                                     icon="ui-icon-plus"
+                                                     id="btnNovoEnvolvido"
+                                                     process="btnNovoEnvolvido"
+                                                     oncomplete="PF('dlgEnvolvido').show();"/>
+                                </f:facet>
+                                <p:column headerText="Tipo">
+                                    <p:outputLabel value="#{env.tipo}">
+                                        
+                                    </p:outputLabel>
+                                </p:column>
+                                <p:column headerText="Descricao">
+                                    <p:outputLabel value="#{env.descricao}">
+                                        
+                                    </p:outputLabel>
+                                </p:column>
+                                <p:column headerText="Ações">
+                                    <div align="center">
+                                        <p:commandButton id="btnAlterarEnvolvido"
+                                                         icon="ui-icon-pencil"
+                                                         actionListener="#{controleContrato.alterarEnvolvido(idxenv)}"
+                                                         process="btnAlterarEnvolvido"
+                                                         update=":formEnvolvido"
+                                                         oncomplete="PF('dlgEnvolvido').show();"/>
+                                        <p:commandButton id="btnExcluirEnvolvido"
+                                                         icon="ui-icon-trash"
+                                                         actionListener="#{controleContrato.removerEnvolvido(idxenv)}"
+                                                         process="btnExcluirEnvolvido"
+                                                         update="listaEnvolvidos :formListagem:growl"
+                                                         onclick="if (!confirm('Confirma a exclusão?'))
+                                                                     return false"/>
+                                    </div>
+                                </p:column>
+                            </p:dataTable>
+                            
+                        </p:tab>
                     </p:tabView>
 
                 </h:form>         
@@ -257,6 +301,43 @@
                         <p:inputText id="txtReajusteValor"
                                      value="#{controleContrato.aditivo.reajustevalor}"
                                      size="30" maxlength="30"/>
+                    </p:panelGrid>
+                </h:form>
+
+            </p:dialog>
+            
+            <p:dialog header="Edição de envolvidos"
+                      widgetVar="dlgEnvolvido" resizable="false" 
+                      modal="true">
+                <h:form id="formEnvolvido">
+                    <p:growl/>
+                    <p:panelGrid columns="2">
+                        <f:facet name="footer">
+                            <div align="center">
+                                <p:commandButton id="btnAdicionarEnvolvido"
+                                                 value="Salvar" icon="ui-icon-disk"
+                                                 actionListener="#{controleContrato.salvarEnvolvido()}"
+                                                 update=":formEdicao:tab:listaEnvolvidos formEnvolvido :formEdicao:growl"
+                                                 process="btnAdicionarEnvolvido txtTipo txtDescricao selectEnvolvido"
+                                                 oncomplete="if(!args.validationFailed) {PF('dlgEnvolvido').hide();}"/>
+                            </div>
+                        </f:facet>
+                        
+                        <p:outputLabel value="Tipo" for="txtTipo"/>
+                        <p:inputText id="txtTipo"
+                                     value="#{controleContrato.envolvido.tipo}"
+                                     size="30" maxlength="30"/>
+                        <p:outputLabel value="Descricao" for="txtDescricao"/>
+                        <p:inputText id="txtDescricao"
+                                     value="#{controleContrato.envolvido.descricao}"
+                                     size="30" maxlength="30"/>
+                        <p:outputLabel value="Pessoaaa" for="selectEnvolvido"/>
+                        <p:selectOneMenu value="#{controleContrato.envolvido.pessoa}"
+                                                     id="selectEnvolvido">
+                                        <f:converter converterId="converterPessoa"/>
+                                        <f:selectItems value="#{controleContrato.daoPessoa.listObjects}"
+                                                       var="e" itemLabel="#{e.nome}"/>
+                        </p:selectOneMenu>
                     </p:panelGrid>
                 </h:form>
 

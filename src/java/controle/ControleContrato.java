@@ -6,7 +6,10 @@
 package controle;
 
 import dao.ContratoDAO;
+import dao.EnvolvidoDAO;
 import dao.ObjetoDAO;
+import dao.PessoaDAO;
+import dao.PessoaFisicaDAO;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -14,6 +17,9 @@ import javax.faces.bean.ViewScoped;
 import modelo.Aditivo;
 import modelo.Contrato;
 import modelo.Objeto;
+import modelo.Envolvido;
+import modelo.Pessoa;
+import modelo.PessoaFisica;
 import util.Util;
 
 /**
@@ -29,9 +35,17 @@ public class ControleContrato implements Serializable  {
     private Contrato objeto;
     private Aditivo aditivo;
     private Boolean novoAditivo;
+    private Envolvido envolvido;
+    private Boolean novoEnvolvido;
     private Objeto obj;
     @EJB
     private ObjetoDAO<Objeto> daoObjeto;
+    @EJB
+    private EnvolvidoDAO<Envolvido> daoEnvolvido;
+    @EJB
+    private PessoaFisicaDAO<PessoaFisica> daoPessoaFisica;
+    @EJB
+    private PessoaDAO<Pessoa> daoPessoa;
 
     public ControleContrato() {
     }
@@ -154,5 +168,67 @@ public class ControleContrato implements Serializable  {
     public void setDaoObjeto(ObjetoDAO<Objeto> daoObjeto) {
         this.daoObjeto = daoObjeto;
     }
+
+    public Envolvido getEnvolvido() {
+        return envolvido;
+    }
+
+    public void setEnvolvido(Envolvido envolvido) {
+        this.envolvido = envolvido;
+    }
+
+    public Boolean getNovoEnvolvido() {
+        return novoEnvolvido;
+    }
+
+    public void setNovoEnvolvido(Boolean novoEnvolvido) {
+        this.novoEnvolvido = novoEnvolvido;
+    }
     
+    public void novoEnvolvido(){
+        envolvido = new Envolvido();
+        novoEnvolvido = true;
+    }
+    
+    public void alterarEnvolvido(int index){
+        envolvido = objeto.getEnvolvidos().get(index);
+        novoEnvolvido = false;
+    }
+    
+    public void salvarEnvolvido(){
+        if (novoEnvolvido){
+            objeto.adicionarEnvolvido(envolvido);
+        }
+        Util.mensagemInformacao("Operação realizada com sucesso");
+    }
+    
+    public void removerEnvolvido(int index){
+        objeto.removerEnvolvido(index);
+        Util.mensagemInformacao("Operação realizada com sucesso");
+    }
+
+//    public EnvolvidoDAO<Envolvido> getDaoEnvolvido() {
+//        return daoEnvolvido;
+//    }
+//
+//    public void setDaoEnvolvido(EnvolvidoDAO<Envolvido> daoEnvolvido) {
+//        this.daoEnvolvido = daoEnvolvido;
+//    }
+
+    public PessoaFisicaDAO<PessoaFisica> getDaoPessoaFisica() {
+        return daoPessoaFisica;
+    }
+
+    public void setDaoPessoaFisica(PessoaFisicaDAO<PessoaFisica> daoPessoaFisica) {
+        this.daoPessoaFisica = daoPessoaFisica;
+    }
+
+    public PessoaDAO<Pessoa> getDaoPessoa() {
+        return daoPessoa;
+    }
+
+    public void setDaoPessoa(PessoaDAO<Pessoa> daoPessoa) {
+        this.daoPessoa = daoPessoa;
+    }
+
 }

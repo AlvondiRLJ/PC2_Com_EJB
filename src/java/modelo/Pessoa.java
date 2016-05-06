@@ -35,7 +35,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "pessoa")
-public abstract class Pessoa implements Serializable {
+public class Pessoa implements Serializable {
     
     @Id
     @SequenceGenerator(name = "seq_pessoa", sequenceName = "seq_pessoa_codigo",
@@ -78,8 +78,8 @@ public abstract class Pessoa implements Serializable {
     @ManyToOne
     @JoinColumn(name = "cidade",referencedColumnName = "codigo",nullable = false)
     private Cidade cidade;
+        
     
-
     public Pessoa() {
     }
 
@@ -189,5 +189,5 @@ public abstract class Pessoa implements Serializable {
     public String toString() {
         return nome;
     }
-    
+
 }

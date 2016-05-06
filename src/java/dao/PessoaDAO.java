@@ -19,14 +19,14 @@ public class PessoaDAO<T> extends GenericDAO<Pessoa> implements Serializable {
 
     public PessoaDAO() {
 //        super();
-//        super.setPersistentClass(Pessoa.class);
-//        super.getListOrder().add(new Order("id", "ID", "="));
-//        super.getListOrder().add(new Order("nome", "Nome", "like"));
+        super.setPersistentClass(Pessoa.class);
+        super.getListOrder().add(new Order("codigo", "Codigo", "="));
+        super.getListOrder().add(new Order("nome", "Nome", "like"));
 //        super.getListOrder().add(new Order("apelido", "Apelido", "like"));
 //        super.getListOrder().add(new Order("cidade.nome", "Cidade", "like"));
-//        super.setCurrentOrder(super.getListOrder().get(1));
-//        super.setFilter("");
-//        super.setConverterOrder(new ConverterOrder(super.getListOrder()));
+        super.setCurrentOrder(super.getListOrder().get(1));
+        super.setFilter("");
+        super.setConverterOrder(new ConverterOrder(super.getListOrder()));
     }
     @Override
     public Pessoa getObjectById(Integer id) throws Exception {

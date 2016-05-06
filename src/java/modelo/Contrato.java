@@ -17,6 +17,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -35,6 +37,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  * @author Alvondi
  */
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "contrato")
 public class Contrato implements Serializable {
     
@@ -74,8 +77,12 @@ public class Contrato implements Serializable {
                 inverseJoinColumns = 
                     @JoinColumn(name = "objeto", referencedColumnName = "codigo"))
     private List<Objeto> objetos = new ArrayList<>();
-    
+    @OneToMany(mappedBy = "contrato", cascade = CascadeType.ALL,
+            orphanRemoval = true, fetch = FetchType.LAZY)
+    @OrderBy(value = "codigo asc")
+    private List<Envolvido> envolvidos = new ArrayList<>();
 
+    
     public Contrato() {
     }
 
@@ -191,6 +198,27 @@ public class Contrato implements Serializable {
     
     public void removerObjetos(Objeto obj){
         this.getObjetos().remove(obj);
+    }
+
+    public List<Envolvido> getEnvolvidos() {
+        return envolvidos;
+    }
+
+    public void setEnvolvidos(List<Envolvido> envolvidos) {
+        this.envolvidos = envolvidos;
+    }
+    
+    public void adicionarEnvolvido(Envolvido obj){
+        obj.setContrato(this);
+        this.envolvidos.add(obj);
+    }
+    
+    public void removerEnvolvido(int index){
+        this.envolvidos.remove(index);
+    }
+    
+    public void removerTodosEnvolvidos(){
+        this.envolvidos.clear();
     }
     
 }
