@@ -93,7 +93,6 @@
                         </div>
                     </p:column>
                 </p:dataTable>
-
             </h:form>
         </ui:define>
         <ui:define name="dialogos">
@@ -144,7 +143,6 @@
                             </div>
                         </p:tab>
                         <p:tab title="Aditivos" titletip="Aditivos">
-                            
                             <p:dataTable value="#{controleContrato.objeto.aditivos}"
                                          var="adt" rowIndexVar="idx"
                                          id="listaAditivos">
@@ -186,7 +184,6 @@
                                     </div>
                                 </p:column>
                             </p:dataTable>
-                            
                         </p:tab>
                         <p:tab title="Objetos" titletip="Objetos">
                             <div align="center">
@@ -225,10 +222,8 @@
                                     </div>
                                 </p:column>
                             </p:dataTable>
-                            
                         </p:tab>
                         <p:tab title="Envolvidos" titletip="Envolvidos">
-                            
                             <p:dataTable value="#{controleContrato.objeto.envolvidos}"
                                          var="env" rowIndexVar="idxenv"
                                          id="listaEnvolvidos">
@@ -241,15 +236,14 @@
                                                      process="btnNovoEnvolvido"
                                                      oncomplete="PF('dlgEnvolvido').show();"/>
                                 </f:facet>
+                                <p:column headerText="Envolvido">
+                                    <p:outputLabel value="#{env.pessoa.nome}"/>
+                                </p:column>
                                 <p:column headerText="Tipo">
-                                    <p:outputLabel value="#{env.tipo}">
-                                        
-                                    </p:outputLabel>
+                                    <p:outputLabel value="#{env.tipo}"/>
                                 </p:column>
                                 <p:column headerText="Descricao">
-                                    <p:outputLabel value="#{env.descricao}">
-                                        
-                                    </p:outputLabel>
+                                    <p:outputLabel value="#{env.descricao}"/>
                                 </p:column>
                                 <p:column headerText="Ações">
                                     <div align="center">
@@ -269,10 +263,8 @@
                                     </div>
                                 </p:column>
                             </p:dataTable>
-                            
                         </p:tab>
                     </p:tabView>
-
                 </h:form>         
             </p:dialog>
             <p:dialog header="Edição de aditivos"
@@ -303,9 +295,7 @@
                                      size="30" maxlength="30"/>
                     </p:panelGrid>
                 </h:form>
-
             </p:dialog>
-            
             <p:dialog header="Edição de envolvidos"
                       widgetVar="dlgEnvolvido" resizable="false" 
                       modal="true">
@@ -322,7 +312,6 @@
                                                  oncomplete="if(!args.validationFailed) {PF('dlgEnvolvido').hide();}"/>
                             </div>
                         </f:facet>
-                        
                         <p:outputLabel value="Tipo" for="txtTipo"/>
                         <p:inputText id="txtTipo"
                                      value="#{controleContrato.envolvido.tipo}"
@@ -340,9 +329,7 @@
                         </p:selectOneMenu>
                     </p:panelGrid>
                 </h:form>
-
             </p:dialog>
-
         </ui:define>
     </ui:composition>
 </html>
